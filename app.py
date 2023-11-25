@@ -186,10 +186,7 @@ def index():
 
 @app.route('/fetch_data', methods=['POST'])
 def fetch_data():
-    key_file_path = 'key.json'
-    if not os.path.isfile(key_file_path):
-        print(f"Error: Key file '{key_file_path}' not found.")
-        # Handle the error, raise an exception, or exit the program
+    key_file_path = '/etc/secrets/Key.json'
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = key_file_path
     
     propertiesID = {
