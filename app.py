@@ -318,5 +318,3 @@ def fetch_data():
     # Send the file for download with a specific filename
     return send_file(csv_filename, as_attachment=True, download_name='GA_Data.csv')
 
-if __name__ == '__main__':
-    app.run(debug=True)
