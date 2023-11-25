@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "resonant-tract-404408",
+  "private_key_id": "a146c9f0b672e3964291574f4027035e2d981c80",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDyypMk9fPYIBa/\niA8mGKSq8j36GcNjxFN6+vqAZz5lNU+PG3N2twjFS/fRmgiTvLgMJnFE9/PD4kc5\nCOMG7vnOnVuvlWS3jX49SnJCYpjm449YKGXVYo1hlc8jwvKloX6cwSPL3iupWwz/\nGmvnEM4H3qwcvWIIxx3xNDcBfBq/eFUYTPCdMI+xG4B1RHvjEtqye2YlknbeOUWQ\nXMt96VYsd/1d0YJmNPXSi8A8yh3EF9/LyqS6b5+sOX8ZO7rqPS2I5mNOREbR0Cv9\nQsbsblzzDF5VdUsnv53KNy2wPUQOQycDKpYUQKJOWblXCmHAgA+aF2L/8IlteKrD\naWI/iYhDAgMBAAECggEAX1TlY/zjCzjGVdxRvm6ssaa+aSaWjuT2tnI3zBU97bV6\nEMIBm1qRKg8DNpzZw1C1n6e0kBUf9QkzWBTCN+W71sH4zz/EtUHskJpbtO9MBFTT\n4xSxr5Cr3OZa2Dri1eBMe7ZmnNUWpb/noX85YRg7HeH0CLDf/nxYqG4NLxsQ0Z7l\nThSxCmKNZLfjZMyQt1g8sPAzn7HbwIqqxO1nX6DtjFE1tHziu6LGEHivh4a2QL/s\nj/FfBinXemMYDnNV1EuiNJgFhLu7but2n+8+bKyRPcyGADgO1+pO89fJl5wWatvq\nh/MCg96KhHKWQtLeMKwX1924LQ3jNHFUirJKV9Lm8QKBgQD+1T896WG/m/BEAizz\nhI1unmjTIDx14JLq6TbGuOgphF/BzgGBiDRwGKgOC83vAK+2kL99QAIHyNG3gGxW\nEBXHd5BJgFZZWLndj9XyjXEbIdmixLkGCGRugva7F1VQ8Q9KDGNfqh+whQBtTw+O\nQwUuMP35aTKUgUoUkQfGMRvLeQKBgQDz5zXwEqEaPqP/Y9JY074eBa2sQsCGpwQG\nPE1IGXPtLxX0S4gGbt1HSb6b1dsqma6P6yEhX+Wz8LXmPgSVtkaSXYStfVXqbB2V\nRn+ofWa/99b7OiojekCfvhZDMIqdQrls4zlvOwhl7FscSP2hpMr9OffvmtcQTpho\nNyXwb9SGmwKBgQDCuvG4vb6UTPUtAvyWmZP6E9LGgruw2AtstwnEkUfXcfA6iNFd\nyldH0Y+aLCsRl9SuDa5GZ8Mlb6/SKbCfk2sRIayAfjF91O8y/9bdonfr49ILL4iz\ns3YLfMhN72aik5K7YvwM/lN48CmDXgblDxHGWmm5TUn5cVLKpIjsSlqTAQKBgAjn\n419NvtYvfVuA8JhPuvxrpqjIkzEXfh0gLI46Z7I8aufNrjzV5XyJ48za5TLMA8S7\niC0ozEFiw7GRiCdTTYZgpcyT7AQwSHA/779ePNc7nHz15b3/48YxcayoZBdT7WNd\ndKZsGGVoWPdSbvhtBQB0EmqMU9gDlqsPgHIkEzWLAoGAJt+tqkSjUOOMbIy/tObN\n2fZNeYwvRy6UiPO1usWxDa/coYs0GODA57Lnl8xEosOur4aH0N4O4ROZSYhl59q4\n3ulGVsniwzWgm0MPGeq1ubdI68dlWRvtAmSBOB2hXcSjswisiC/fZZWIg4VnkiMt\nImcKyggptyvgtKX/P7+F6ms=\n-----END PRIVATE KEY-----\n",
+  "client_email": "ga4-demo@resonant-tract-404408.iam.gserviceaccount.com",
+  "client_id": "107899942855756349688",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ga4-demo%40resonant-tract-404408.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -1,0 +1,1655 @@
+<!-- index.html -->
+<html>
+<head>
+    <title>Google Analytics Data Retrieval</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Google Analytics (GA4) Data</h1>
+        </div>
+        <form action="/fetch_data" method="post">
+            <table class="form-table">
+                <tr>
+                    <td>
+                        <label for="brand">Brand:</label>
+                        <select class="form-control" name="brand" id="brand">
+                            <option value="GA">GA</option>
+                            <option value="GU">GU</option>
+                            <option value="KV">KV</option>
+                            <option value="BR">BR</option>
+                            <option value="BC">BC</option>
+                            <option value="BG">BG</option>
+                            <option value="MB">MB</option>
+                            <option value="SH">SH</option>
+                            <option value="BP">BP</option>
+                            <option value="PC">PC</option>
+                            <option value="SP">SP</option>
+                            <!-- Add more options as needed -->
+                        </select>
+                    </td>
+                    <td>
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" class="form-control" name="start_date" id="start_date" required>
+                    </td>
+                    <td>
+                        <label for="end_date">End Date:</label>
+                        <input type="date" class="form-control" name="end_date" id="end_date" required>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <!-- Dimensions -->
+                        <div class="dual-list">
+                            <div class="checkbox-container">
+                                <input type="text" class="search-box dimensions" placeholder="Search-Dimensions..." oninput="filterDimensions()">
+                                <div class="checkbox-list dimensions">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="achievementId" name="selected-dimensions-list" value="achievementId" onchange="updateSelectedDimensions()">
+                                        <label for="Achievement ID" class="checkbox-label">Achievement ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="adFormat" name="selected-dimensions-list" value="adFormat" onchange="updateSelectedDimensions()">
+                                        <label for="Ad format" class="checkbox-label">Ad format</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="adSourceName" name="selected-dimensions-list" value="adSourceName" onchange="updateSelectedDimensions()">
+                                        <label for="Ad source" class="checkbox-label">Ad source</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="adUnitName" name="selected-dimensions-list" value="adUnitName" onchange="updateSelectedDimensions()">
+                                        <label for="Ad unit" class="checkbox-label">Ad unit</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="appVersion" name="selected-dimensions-list" value="appVersion" onchange="updateSelectedDimensions()">
+                                        <label for="App version" class="checkbox-label">App version</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="audienceName" name="selected-dimensions-list" value="audienceName" onchange="updateSelectedDimensions()">
+                                        <label for="Audience name" class="checkbox-label">Audience name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="audienceResourceName" name="selected-dimensions-list" value="audienceResourceName" onchange="updateSelectedDimensions()">
+                                        <label for="Audience resource name" class="checkbox-label">Audience resource name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="brandingInterest" name="selected-dimensions-list" value="brandingInterest" onchange="updateSelectedDimensions()">
+                                        <label for="Interests" class="checkbox-label">Interests</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="browser" name="selected-dimensions-list" value="browser" onchange="updateSelectedDimensions()">
+                                        <label for="Browser" class="checkbox-label">Browser</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="campaignId" name="selected-dimensions-list" value="campaignId" onchange="updateSelectedDimensions()">
+                                        <label for="Campaign ID" class="checkbox-label">Campaign ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="campaignName" name="selected-dimensions-list" value="campaignName" onchange="updateSelectedDimensions()">
+                                        <label for="Campaign" class="checkbox-label">Campaign</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="character" name="selected-dimensions-list" value="character" onchange="updateSelectedDimensions()">
+                                        <label for="Character" class="checkbox-label">Character</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="city" name="selected-dimensions-list" value="city" onchange="updateSelectedDimensions()">
+                                        <label for="City" class="checkbox-label">City</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="cityId" name="selected-dimensions-list" value="cityId" onchange="updateSelectedDimensions()">
+                                        <label for="City ID" class="checkbox-label">City ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="cohort" name="selected-dimensions-list" value="cohort" onchange="updateSelectedDimensions()">
+                                        <label for="Cohort" class="checkbox-label">Cohort</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="cohortNthDay" name="selected-dimensions-list" value="cohortNthDay" onchange="updateSelectedDimensions()">
+                                        <label for="Daily cohort" class="checkbox-label">Daily cohort</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="cohortNthMonth" name="selected-dimensions-list" value="cohortNthMonth" onchange="updateSelectedDimensions()">
+                                        <label for="Monthly cohort" class="checkbox-label">Monthly cohort</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="cohortNthWeek" name="selected-dimensions-list" value="cohortNthWeek" onchange="updateSelectedDimensions()">
+                                        <label for="Weekly cohort" class="checkbox-label">Weekly cohort</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="contentGroup" name="selected-dimensions-list" value="contentGroup" onchange="updateSelectedDimensions()">
+                                        <label for="Content group" class="checkbox-label">Content group</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="contentId" name="selected-dimensions-list" value="contentId" onchange="updateSelectedDimensions()">
+                                        <label for="Content ID" class="checkbox-label">Content ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="contentType" name="selected-dimensions-list" value="contentType" onchange="updateSelectedDimensions()">
+                                        <label for="Content type" class="checkbox-label">Content type</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="continent" name="selected-dimensions-list" value="continent" onchange="updateSelectedDimensions()">
+                                        <label for="Continent" class="checkbox-label">Continent</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="continentId" name="selected-dimensions-list" value="continentId" onchange="updateSelectedDimensions()">
+                                        <label for="Continent ID" class="checkbox-label">Continent ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="country" name="selected-dimensions-list" value="country" onchange="updateSelectedDimensions()">
+                                        <label for="Country" class="checkbox-label">Country</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="countryId" name="selected-dimensions-list" value="countryId" onchange="updateSelectedDimensions()">
+                                        <label for="Country ID" class="checkbox-label">Country ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="currencyCode" name="selected-dimensions-list" value="currencyCode" onchange="updateSelectedDimensions()">
+                                        <label for="Currency" class="checkbox-label">Currency</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="date" name="selected-dimensions-list" value="date" onchange="updateSelectedDimensions()">
+                                        <label for="Date" class="checkbox-label">Date</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="dateHour" name="selected-dimensions-list" value="dateHour" onchange="updateSelectedDimensions()">
+                                        <label for="Date + hour (YYYYMMDDHH)" class="checkbox-label">Date + hour (YYYYMMDDHH)</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="dateHourMinute" name="selected-dimensions-list" value="dateHourMinute" onchange="updateSelectedDimensions()">
+                                        <label for="Date hour and minute" class="checkbox-label">Date hour and minute</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="day" name="selected-dimensions-list" value="day" onchange="updateSelectedDimensions()">
+                                        <label for="Day" class="checkbox-label">Day</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="dayOfWeek" name="selected-dimensions-list" value="dayOfWeek" onchange="updateSelectedDimensions()">
+                                        <label for="Day of week" class="checkbox-label">Day of week</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="dayOfWeekName" name="selected-dimensions-list" value="dayOfWeekName" onchange="updateSelectedDimensions()">
+                                        <label for="Day of week name" class="checkbox-label">Day of week name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="defaultChannelGroup" name="selected-dimensions-list" value="defaultChannelGroup" onchange="updateSelectedDimensions()">
+                                        <label for="Default channel group" class="checkbox-label">Default channel group</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="deviceCategory" name="selected-dimensions-list" value="deviceCategory" onchange="updateSelectedDimensions()">
+                                        <label for="Device category" class="checkbox-label">Device category</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="deviceModel" name="selected-dimensions-list" value="deviceModel" onchange="updateSelectedDimensions()">
+                                        <label for="Device model" class="checkbox-label">Device model</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="eventName" name="selected-dimensions-list" value="eventName" onchange="updateSelectedDimensions()">
+                                        <label for="Event name" class="checkbox-label">Event name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="fileExtension" name="selected-dimensions-list" value="fileExtension" onchange="updateSelectedDimensions()">
+                                        <label for="File extension" class="checkbox-label">File extension</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="fileName" name="selected-dimensions-list" value="fileName" onchange="updateSelectedDimensions()">
+                                        <label for="File name" class="checkbox-label">File name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstSessionDate" name="selected-dimensions-list" value="firstSessionDate" onchange="updateSelectedDimensions()">
+                                        <label for="First session date" class="checkbox-label">First session date</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserCampaignId" name="selected-dimensions-list" value="firstUserCampaignId" onchange="updateSelectedDimensions()">
+                                        <label for="First user campaign ID" class="checkbox-label">First user campaign ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserCampaignName" name="selected-dimensions-list" value="firstUserCampaignName" onchange="updateSelectedDimensions()">
+                                        <label for="First user campaign" class="checkbox-label">First user campaign</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserDefaultChannelGroup" name="selected-dimensions-list" value="firstUserDefaultChannelGroup" onchange="updateSelectedDimensions()">
+                                        <label for="First user default channel group" class="checkbox-label">First user default channel group</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserGoogleAdsAccountName" name="selected-dimensions-list" value="firstUserGoogleAdsAccountName" onchange="updateSelectedDimensions()">
+                                        <label for="First user Google Ads account name" class="checkbox-label">First user Google Ads account name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserGoogleAdsAdGroupId" name="selected-dimensions-list" value="firstUserGoogleAdsAdGroupId" onchange="updateSelectedDimensions()">
+                                        <label for="First user Google Ads ad group ID" class="checkbox-label">First user Google Ads ad group ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserGoogleAdsAdGroupName" name="selected-dimensions-list" value="firstUserGoogleAdsAdGroupName" onchange="updateSelectedDimensions()">
+                                        <label for="First user Google Ads ad group name" class="checkbox-label">First user Google Ads ad group name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserGoogleAdsAdNetworkType" name="selected-dimensions-list" value="firstUserGoogleAdsAdNetworkType" onchange="updateSelectedDimensions()">
+                                        <label for="First user Google Ads ad network type" class="checkbox-label">First user Google Ads ad network type</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserGoogleAdsCampaignId" name="selected-dimensions-list" value="firstUserGoogleAdsCampaignId" onchange="updateSelectedDimensions()">
+                                        <label for="First user Google Ads campaign ID" class="checkbox-label">First user Google Ads campaign ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserGoogleAdsCampaignName" name="selected-dimensions-list" value="firstUserGoogleAdsCampaignName" onchange="updateSelectedDimensions()">
+                                        <label for="First user Google Ads campaign" class="checkbox-label">First user Google Ads campaign</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserGoogleAdsCampaignType" name="selected-dimensions-list" value="firstUserGoogleAdsCampaignType" onchange="updateSelectedDimensions()">
+                                        <label for="First user Google Ads campaign type" class="checkbox-label">First user Google Ads campaign type</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserGoogleAdsCreativeId" name="selected-dimensions-list" value="firstUserGoogleAdsCreativeId" onchange="updateSelectedDimensions()">
+                                        <label for="First user Google Ads creative ID" class="checkbox-label">First user Google Ads creative ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserGoogleAdsCustomerId" name="selected-dimensions-list" value="firstUserGoogleAdsCustomerId" onchange="updateSelectedDimensions()">
+                                        <label for="First user Google Ads customer ID" class="checkbox-label">First user Google Ads customer ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserGoogleAdsKeyword" name="selected-dimensions-list" value="firstUserGoogleAdsKeyword" onchange="updateSelectedDimensions()">
+                                        <label for="First user Google Ads keyword text" class="checkbox-label">First user Google Ads keyword text</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserGoogleAdsQuery" name="selected-dimensions-list" value="firstUserGoogleAdsQuery" onchange="updateSelectedDimensions()">
+                                        <label for="First user Google Ads query" class="checkbox-label">First user Google Ads query</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserManualAdContent" name="selected-dimensions-list" value="firstUserManualAdContent" onchange="updateSelectedDimensions()">
+                                        <label for="First user manual ad content" class="checkbox-label">First user manual ad content</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserManualTerm" name="selected-dimensions-list" value="firstUserManualTerm" onchange="updateSelectedDimensions()">
+                                        <label for="First user manual term" class="checkbox-label">First user manual term</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserMedium" name="selected-dimensions-list" value="firstUserMedium" onchange="updateSelectedDimensions()">
+                                        <label for="First user medium" class="checkbox-label">First user medium</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserSource" name="selected-dimensions-list" value="firstUserSource" onchange="updateSelectedDimensions()">
+                                        <label for="First user source" class="checkbox-label">First user source</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserSourceMedium" name="selected-dimensions-list" value="firstUserSourceMedium" onchange="updateSelectedDimensions()">
+                                        <label for="First user source / medium" class="checkbox-label">First user source / medium</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="firstUserSourcePlatform" name="selected-dimensions-list" value="firstUserSourcePlatform" onchange="updateSelectedDimensions()">
+                                        <label for="First user source platform" class="checkbox-label">First user source platform</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="fullPageUrl" name="selected-dimensions-list" value="fullPageUrl" onchange="updateSelectedDimensions()">
+                                        <label for="Full page URL" class="checkbox-label">Full page URL</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="googleAdsAccountName" name="selected-dimensions-list" value="googleAdsAccountName" onchange="updateSelectedDimensions()">
+                                        <label for="Google Ads account name" class="checkbox-label">Google Ads account name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="googleAdsAdGroupId" name="selected-dimensions-list" value="googleAdsAdGroupId" onchange="updateSelectedDimensions()">
+                                        <label for="Google Ads ad group ID" class="checkbox-label">Google Ads ad group ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="googleAdsAdGroupName" name="selected-dimensions-list" value="googleAdsAdGroupName" onchange="updateSelectedDimensions()">
+                                        <label for="Google Ads ad group name" class="checkbox-label">Google Ads ad group name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="googleAdsAdNetworkType" name="selected-dimensions-list" value="googleAdsAdNetworkType" onchange="updateSelectedDimensions()">
+                                        <label for="Google Ads ad network type" class="checkbox-label">Google Ads ad network type</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="googleAdsCampaignId" name="selected-dimensions-list" value="googleAdsCampaignId" onchange="updateSelectedDimensions()">
+                                        <label for="Google Ads campaign ID" class="checkbox-label">Google Ads campaign ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="googleAdsCampaignName" name="selected-dimensions-list" value="googleAdsCampaignName" onchange="updateSelectedDimensions()">
+                                        <label for="Google Ads campaign" class="checkbox-label">Google Ads campaign</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="googleAdsCampaignType" name="selected-dimensions-list" value="googleAdsCampaignType" onchange="updateSelectedDimensions()">
+                                        <label for="Google Ads campaign type" class="checkbox-label">Google Ads campaign type</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="googleAdsCreativeId" name="selected-dimensions-list" value="googleAdsCreativeId" onchange="updateSelectedDimensions()">
+                                        <label for="Google Ads creative ID" class="checkbox-label">Google Ads creative ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="googleAdsCustomerId" name="selected-dimensions-list" value="googleAdsCustomerId" onchange="updateSelectedDimensions()">
+                                        <label for="Google Ads customer ID" class="checkbox-label">Google Ads customer ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="googleAdsKeyword" name="selected-dimensions-list" value="googleAdsKeyword" onchange="updateSelectedDimensions()">
+                                        <label for="Google Ads keyword text" class="checkbox-label">Google Ads keyword text</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="googleAdsQuery" name="selected-dimensions-list" value="googleAdsQuery" onchange="updateSelectedDimensions()">
+                                        <label for="Google Ads query" class="checkbox-label">Google Ads query</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="groupId" name="selected-dimensions-list" value="groupId" onchange="updateSelectedDimensions()">
+                                        <label for="Group ID" class="checkbox-label">Group ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="hostName" name="selected-dimensions-list" value="hostName" onchange="updateSelectedDimensions()">
+                                        <label for="Hostname" class="checkbox-label">Hostname</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="hour" name="selected-dimensions-list" value="hour" onchange="updateSelectedDimensions()">
+                                        <label for="Hour" class="checkbox-label">Hour</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="isConversionEvent" name="selected-dimensions-list" value="isConversionEvent" onchange="updateSelectedDimensions()">
+                                        <label for="Is conversion event" class="checkbox-label">Is conversion event</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="isoWeek" name="selected-dimensions-list" value="isoWeek" onchange="updateSelectedDimensions()">
+                                        <label for="ISO week of the year" class="checkbox-label">ISO week of the year</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="isoYear" name="selected-dimensions-list" value="isoYear" onchange="updateSelectedDimensions()">
+                                        <label for="ISO year" class="checkbox-label">ISO year</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="isoYearIsoWeek" name="selected-dimensions-list" value="isoYearIsoWeek" onchange="updateSelectedDimensions()">
+                                        <label for="ISO week of ISO year" class="checkbox-label">ISO week of ISO year</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemAffiliation" name="selected-dimensions-list" value="itemAffiliation" onchange="updateSelectedDimensions()">
+                                        <label for="Item affiliation" class="checkbox-label">Item affiliation</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemBrand" name="selected-dimensions-list" value="itemBrand" onchange="updateSelectedDimensions()">
+                                        <label for="Item brand" class="checkbox-label">Item brand</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemCategory" name="selected-dimensions-list" value="itemCategory" onchange="updateSelectedDimensions()">
+                                        <label for="Item category" class="checkbox-label">Item category</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemCategory2" name="selected-dimensions-list" value="itemCategory2" onchange="updateSelectedDimensions()">
+                                        <label for="Item category 2" class="checkbox-label">Item category 2</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemCategory3" name="selected-dimensions-list" value="itemCategory3" onchange="updateSelectedDimensions()">
+                                        <label for="Item category 3" class="checkbox-label">Item category 3</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemCategory4" name="selected-dimensions-list" value="itemCategory4" onchange="updateSelectedDimensions()">
+                                        <label for="Item category 4" class="checkbox-label">Item category 4</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemCategory5" name="selected-dimensions-list" value="itemCategory5" onchange="updateSelectedDimensions()">
+                                        <label for="Item category 5" class="checkbox-label">Item category 5</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemId" name="selected-dimensions-list" value="itemId" onchange="updateSelectedDimensions()">
+                                        <label for="Item ID" class="checkbox-label">Item ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemListId" name="selected-dimensions-list" value="itemListId" onchange="updateSelectedDimensions()">
+                                        <label for="Item list ID" class="checkbox-label">Item list ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemListName" name="selected-dimensions-list" value="itemListName" onchange="updateSelectedDimensions()">
+                                        <label for="Item list name" class="checkbox-label">Item list name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemListPosition" name="selected-dimensions-list" value="itemListPosition" onchange="updateSelectedDimensions()">
+                                        <label for="Item list position" class="checkbox-label">Item list position</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemLocationID" name="selected-dimensions-list" value="itemLocationID" onchange="updateSelectedDimensions()">
+                                        <label for="Item location ID" class="checkbox-label">Item location ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemName" name="selected-dimensions-list" value="itemName" onchange="updateSelectedDimensions()">
+                                        <label for="Item name" class="checkbox-label">Item name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemPromotionCreativeName" name="selected-dimensions-list" value="itemPromotionCreativeName" onchange="updateSelectedDimensions()">
+                                        <label for="Item promotion creative name" class="checkbox-label">Item promotion creative name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemPromotionCreativeSlot" name="selected-dimensions-list" value="itemPromotionCreativeSlot" onchange="updateSelectedDimensions()">
+                                        <label for="Item promotion creative slot" class="checkbox-label">Item promotion creative slot</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemPromotionId" name="selected-dimensions-list" value="itemPromotionId" onchange="updateSelectedDimensions()">
+                                        <label for="Item promotion ID" class="checkbox-label">Item promotion ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemPromotionName" name="selected-dimensions-list" value="itemPromotionName" onchange="updateSelectedDimensions()">
+                                        <label for="Item promotion name" class="checkbox-label">Item promotion name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="itemVariant" name="selected-dimensions-list" value="itemVariant" onchange="updateSelectedDimensions()">
+                                        <label for="Item variant" class="checkbox-label">Item variant</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="landingPage" name="selected-dimensions-list" value="landingPage" onchange="updateSelectedDimensions()">
+                                        <label for="Landing page" class="checkbox-label">Landing page</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="landingPagePlusQueryString" name="selected-dimensions-list" value="landingPagePlusQueryString" onchange="updateSelectedDimensions()">
+                                        <label for="Landing page + query string" class="checkbox-label">Landing page + query string</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="language" name="selected-dimensions-list" value="language" onchange="updateSelectedDimensions()">
+                                        <label for="Language" class="checkbox-label">Language</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="languageCode" name="selected-dimensions-list" value="languageCode" onchange="updateSelectedDimensions()">
+                                        <label for="Language code" class="checkbox-label">Language code</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="level" name="selected-dimensions-list" value="level" onchange="updateSelectedDimensions()">
+                                        <label for="Level" class="checkbox-label">Level</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="linkClasses" name="selected-dimensions-list" value="linkClasses" onchange="updateSelectedDimensions()">
+                                        <label for="Link classes" class="checkbox-label">Link classes</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="linkDomain" name="selected-dimensions-list" value="linkDomain" onchange="updateSelectedDimensions()">
+                                        <label for="Link domain" class="checkbox-label">Link domain</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="linkId" name="selected-dimensions-list" value="linkId" onchange="updateSelectedDimensions()">
+                                        <label for="Link ID" class="checkbox-label">Link ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="linkText" name="selected-dimensions-list" value="linkText" onchange="updateSelectedDimensions()">
+                                        <label for="Link text" class="checkbox-label">Link text</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="linkUrl" name="selected-dimensions-list" value="linkUrl" onchange="updateSelectedDimensions()">
+                                        <label for="Link URL" class="checkbox-label">Link URL</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="manualAdContent" name="selected-dimensions-list" value="manualAdContent" onchange="updateSelectedDimensions()">
+                                        <label for="Manual ad content" class="checkbox-label">Manual ad content</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="manualTerm" name="selected-dimensions-list" value="manualTerm" onchange="updateSelectedDimensions()">
+                                        <label for="Manual term" class="checkbox-label">Manual term</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="medium" name="selected-dimensions-list" value="medium" onchange="updateSelectedDimensions()">
+                                        <label for="Medium" class="checkbox-label">Medium</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="method" name="selected-dimensions-list" value="method" onchange="updateSelectedDimensions()">
+                                        <label for="Method" class="checkbox-label">Method</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="minute" name="selected-dimensions-list" value="minute" onchange="updateSelectedDimensions()">
+                                        <label for="Minute" class="checkbox-label">Minute</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="mobileDeviceBranding" name="selected-dimensions-list" value="mobileDeviceBranding" onchange="updateSelectedDimensions()">
+                                        <label for="Device brand" class="checkbox-label">Device brand</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="mobileDeviceMarketingName" name="selected-dimensions-list" value="mobileDeviceMarketingName" onchange="updateSelectedDimensions()">
+                                        <label for="Device" class="checkbox-label">Device</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="mobileDeviceModel" name="selected-dimensions-list" value="mobileDeviceModel" onchange="updateSelectedDimensions()">
+                                        <label for="Mobile model" class="checkbox-label">Mobile model</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="month" name="selected-dimensions-list" value="month" onchange="updateSelectedDimensions()">
+                                        <label for="Month" class="checkbox-label">Month</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="newVsReturning" name="selected-dimensions-list" value="newVsReturning" onchange="updateSelectedDimensions()">
+                                        <label for="New / returning" class="checkbox-label">New / returning</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="nthDay" name="selected-dimensions-list" value="nthDay" onchange="updateSelectedDimensions()">
+                                        <label for="Nth day" class="checkbox-label">Nth day</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="nthHour" name="selected-dimensions-list" value="nthHour" onchange="updateSelectedDimensions()">
+                                        <label for="Nth hour" class="checkbox-label">Nth hour</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="nthMinute" name="selected-dimensions-list" value="nthMinute" onchange="updateSelectedDimensions()">
+                                        <label for="Nth minute" class="checkbox-label">Nth minute</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="nthMonth" name="selected-dimensions-list" value="nthMonth" onchange="updateSelectedDimensions()">
+                                        <label for="Nth month" class="checkbox-label">Nth month</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="nthWeek" name="selected-dimensions-list" value="nthWeek" onchange="updateSelectedDimensions()">
+                                        <label for="Nth week" class="checkbox-label">Nth week</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="nthYear" name="selected-dimensions-list" value="nthYear" onchange="updateSelectedDimensions()">
+                                        <label for="Nth year" class="checkbox-label">Nth year</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="operatingSystem" name="selected-dimensions-list" value="operatingSystem" onchange="updateSelectedDimensions()">
+                                        <label for="Operating system" class="checkbox-label">Operating system</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="operatingSystemVersion" name="selected-dimensions-list" value="operatingSystemVersion" onchange="updateSelectedDimensions()">
+                                        <label for="OS version" class="checkbox-label">OS version</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="operatingSystemWithVersion" name="selected-dimensions-list" value="operatingSystemWithVersion" onchange="updateSelectedDimensions()">
+                                        <label for="Operating system with version" class="checkbox-label">Operating system with version</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="orderCoupon" name="selected-dimensions-list" value="orderCoupon" onchange="updateSelectedDimensions()">
+                                        <label for="Order coupon" class="checkbox-label">Order coupon</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="outbound" name="selected-dimensions-list" value="outbound" onchange="updateSelectedDimensions()">
+                                        <label for="Outbound" class="checkbox-label">Outbound</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="pageLocation" name="selected-dimensions-list" value="pageLocation" onchange="updateSelectedDimensions()">
+                                        <label for="Page location" class="checkbox-label">Page location</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="pagePath" name="selected-dimensions-list" value="pagePath" onchange="updateSelectedDimensions()">
+                                        <label for="Page path" class="checkbox-label">Page path</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="pagePathPlusQueryString" name="selected-dimensions-list" value="pagePathPlusQueryString" onchange="updateSelectedDimensions()">
+                                        <label for="Page path + query string" class="checkbox-label">Page path + query string</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="pageReferrer" name="selected-dimensions-list" value="pageReferrer" onchange="updateSelectedDimensions()">
+                                        <label for="Page referrer" class="checkbox-label">Page referrer</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="pageTitle" name="selected-dimensions-list" value="pageTitle" onchange="updateSelectedDimensions()">
+                                        <label for="Page title" class="checkbox-label">Page title</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="percentScrolled" name="selected-dimensions-list" value="percentScrolled" onchange="updateSelectedDimensions()">
+                                        <label for="Percent scrolled" class="checkbox-label">Percent scrolled</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="platform" name="selected-dimensions-list" value="platform" onchange="updateSelectedDimensions()">
+                                        <label for="Platform" class="checkbox-label">Platform</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="platformDeviceCategory" name="selected-dimensions-list" value="platformDeviceCategory" onchange="updateSelectedDimensions()">
+                                        <label for="Platform / device category" class="checkbox-label">Platform / device category</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="region" name="selected-dimensions-list" value="region" onchange="updateSelectedDimensions()">
+                                        <label for="Region" class="checkbox-label">Region</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="screenResolution" name="selected-dimensions-list" value="screenResolution" onchange="updateSelectedDimensions()">
+                                        <label for="Screen resolution" class="checkbox-label">Screen resolution</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="searchTerm" name="selected-dimensions-list" value="searchTerm" onchange="updateSelectedDimensions()">
+                                        <label for="Search term" class="checkbox-label">Search term</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionCampaignId" name="selected-dimensions-list" value="sessionCampaignId" onchange="updateSelectedDimensions()">
+                                        <label for="Session campaign ID" class="checkbox-label">Session campaign ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionCampaignName" name="selected-dimensions-list" value="sessionCampaignName" onchange="updateSelectedDimensions()">
+                                        <label for="Session campaign" class="checkbox-label">Session campaign</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionDefaultChannelGroup" name="selected-dimensions-list" value="sessionDefaultChannelGroup" onchange="updateSelectedDimensions()">
+                                        <label for="Session default channel group" class="checkbox-label">Session default channel group</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionGoogleAdsAccountName" name="selected-dimensions-list" value="sessionGoogleAdsAccountName" onchange="updateSelectedDimensions()">
+                                        <label for="Session Google Ads account name" class="checkbox-label">Session Google Ads account name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionGoogleAdsAdGroupId" name="selected-dimensions-list" value="sessionGoogleAdsAdGroupId" onchange="updateSelectedDimensions()">
+                                        <label for="Session Google Ads ad group ID" class="checkbox-label">Session Google Ads ad group ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionGoogleAdsAdGroupName" name="selected-dimensions-list" value="sessionGoogleAdsAdGroupName" onchange="updateSelectedDimensions()">
+                                        <label for="Session Google Ads ad group name" class="checkbox-label">Session Google Ads ad group name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionGoogleAdsAdNetworkType" name="selected-dimensions-list" value="sessionGoogleAdsAdNetworkType" onchange="updateSelectedDimensions()">
+                                        <label for="Session Google Ads ad network type" class="checkbox-label">Session Google Ads ad network type</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionGoogleAdsCampaignId" name="selected-dimensions-list" value="sessionGoogleAdsCampaignId" onchange="updateSelectedDimensions()">
+                                        <label for="Session Google Ads campaign ID" class="checkbox-label">Session Google Ads campaign ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionGoogleAdsCampaignName" name="selected-dimensions-list" value="sessionGoogleAdsCampaignName" onchange="updateSelectedDimensions()">
+                                        <label for="Session Google Ads campaign" class="checkbox-label">Session Google Ads campaign</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionGoogleAdsCampaignType" name="selected-dimensions-list" value="sessionGoogleAdsCampaignType" onchange="updateSelectedDimensions()">
+                                        <label for="Session Google Ads campaign type" class="checkbox-label">Session Google Ads campaign type</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionGoogleAdsCreativeId" name="selected-dimensions-list" value="sessionGoogleAdsCreativeId" onchange="updateSelectedDimensions()">
+                                        <label for="Session Google Ads creative ID" class="checkbox-label">Session Google Ads creative ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionGoogleAdsCustomerId" name="selected-dimensions-list" value="sessionGoogleAdsCustomerId" onchange="updateSelectedDimensions()">
+                                        <label for="Session Google Ads customer ID" class="checkbox-label">Session Google Ads customer ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionGoogleAdsKeyword" name="selected-dimensions-list" value="sessionGoogleAdsKeyword" onchange="updateSelectedDimensions()">
+                                        <label for="Session Google Ads keyword text" class="checkbox-label">Session Google Ads keyword text</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionGoogleAdsQuery" name="selected-dimensions-list" value="sessionGoogleAdsQuery" onchange="updateSelectedDimensions()">
+                                        <label for="Session Google Ads query" class="checkbox-label">Session Google Ads query</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionManualAdContent" name="selected-dimensions-list" value="sessionManualAdContent" onchange="updateSelectedDimensions()">
+                                        <label for="Session manual ad content" class="checkbox-label">Session manual ad content</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionManualTerm" name="selected-dimensions-list" value="sessionManualTerm" onchange="updateSelectedDimensions()">
+                                        <label for="Session manual term" class="checkbox-label">Session manual term</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionMedium" name="selected-dimensions-list" value="sessionMedium" onchange="updateSelectedDimensions()">
+                                        <label for="Session medium" class="checkbox-label">Session medium</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSa360AdGroupName" name="selected-dimensions-list" value="sessionSa360AdGroupName" onchange="updateSelectedDimensions()">
+                                        <label for="Session SA360 ad group name" class="checkbox-label">Session SA360 ad group name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSa360CampaignId" name="selected-dimensions-list" value="sessionSa360CampaignId" onchange="updateSelectedDimensions()">
+                                        <label for="Session SA360 campaign ID" class="checkbox-label">Session SA360 campaign ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSa360CampaignName" name="selected-dimensions-list" value="sessionSa360CampaignName" onchange="updateSelectedDimensions()">
+                                        <label for="Session SA360 campaign" class="checkbox-label">Session SA360 campaign</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSa360CreativeFormat" name="selected-dimensions-list" value="sessionSa360CreativeFormat" onchange="updateSelectedDimensions()">
+                                        <label for="Session SA360 creative format" class="checkbox-label">Session SA360 creative format</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSa360EngineAccountId" name="selected-dimensions-list" value="sessionSa360EngineAccountId" onchange="updateSelectedDimensions()">
+                                        <label for="Session SA360 engine account ID" class="checkbox-label">Session SA360 engine account ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSa360EngineAccountName" name="selected-dimensions-list" value="sessionSa360EngineAccountName" onchange="updateSelectedDimensions()">
+                                        <label for="Session SA360 engine account name" class="checkbox-label">Session SA360 engine account name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSa360EngineAccountType" name="selected-dimensions-list" value="sessionSa360EngineAccountType" onchange="updateSelectedDimensions()">
+                                        <label for="Session SA360 engine account type" class="checkbox-label">Session SA360 engine account type</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSa360Keyword" name="selected-dimensions-list" value="sessionSa360Keyword" onchange="updateSelectedDimensions()">
+                                        <label for="Session SA360 keyword text" class="checkbox-label">Session SA360 keyword text</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSa360Medium" name="selected-dimensions-list" value="sessionSa360Medium" onchange="updateSelectedDimensions()">
+                                        <label for="Session SA360 medium" class="checkbox-label">Session SA360 medium</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSa360Query" name="selected-dimensions-list" value="sessionSa360Query" onchange="updateSelectedDimensions()">
+                                        <label for="Session SA360 query" class="checkbox-label">Session SA360 query</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSa360Source" name="selected-dimensions-list" value="sessionSa360Source" onchange="updateSelectedDimensions()">
+                                        <label for="Session SA360 source" class="checkbox-label">Session SA360 source</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSource" name="selected-dimensions-list" value="sessionSource" onchange="updateSelectedDimensions()">
+                                        <label for="Session source" class="checkbox-label">Session source</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSourceMedium" name="selected-dimensions-list" value="sessionSourceMedium" onchange="updateSelectedDimensions()">
+                                        <label for="Session source / medium" class="checkbox-label">Session source / medium</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sessionSourcePlatform" name="selected-dimensions-list" value="sessionSourcePlatform" onchange="updateSelectedDimensions()">
+                                        <label for="Session source platform" class="checkbox-label">Session source platform</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="shippingTier" name="selected-dimensions-list" value="shippingTier" onchange="updateSelectedDimensions()">
+                                        <label for="Shipping tier" class="checkbox-label">Shipping tier</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="signedInWithUserId" name="selected-dimensions-list" value="signedInWithUserId" onchange="updateSelectedDimensions()">
+                                        <label for="Signed in with user ID" class="checkbox-label">Signed in with user ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="source" name="selected-dimensions-list" value="source" onchange="updateSelectedDimensions()">
+                                        <label for="Source" class="checkbox-label">Source</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sourceMedium" name="selected-dimensions-list" value="sourceMedium" onchange="updateSelectedDimensions()">
+                                        <label for="Source / medium" class="checkbox-label">Source / medium</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="sourcePlatform" name="selected-dimensions-list" value="sourcePlatform" onchange="updateSelectedDimensions()">
+                                        <label for="Source platform" class="checkbox-label">Source platform</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="streamId" name="selected-dimensions-list" value="streamId" onchange="updateSelectedDimensions()">
+                                        <label for="Stream ID" class="checkbox-label">Stream ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="streamName" name="selected-dimensions-list" value="streamName" onchange="updateSelectedDimensions()">
+                                        <label for="Stream name" class="checkbox-label">Stream name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="testDataFilterId" name="selected-dimensions-list" value="testDataFilterId" onchange="updateSelectedDimensions()">
+                                        <label for="Test data filter ID" class="checkbox-label">Test data filter ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="testDataFilterName" name="selected-dimensions-list" value="testDataFilterName" onchange="updateSelectedDimensions()">
+                                        <label for="Test data filter name" class="checkbox-label">Test data filter name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="transactionId" name="selected-dimensions-list" value="transactionId" onchange="updateSelectedDimensions()">
+                                        <label for="Transaction ID" class="checkbox-label">Transaction ID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="unifiedPagePathScreen" name="selected-dimensions-list" value="unifiedPagePathScreen" onchange="updateSelectedDimensions()">
+                                        <label for="Page path and screen class" class="checkbox-label">Page path and screen class</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="unifiedPageScreen" name="selected-dimensions-list" value="unifiedPageScreen" onchange="updateSelectedDimensions()">
+                                        <label for="Page path + query string and screen class" class="checkbox-label">Page path + query string and screen class</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="unifiedScreenClass" name="selected-dimensions-list" value="unifiedScreenClass" onchange="updateSelectedDimensions()">
+                                        <label for="Page title and screen class" class="checkbox-label">Page title and screen class</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="unifiedScreenName" name="selected-dimensions-list" value="unifiedScreenName" onchange="updateSelectedDimensions()">
+                                        <label for="Page title and screen name" class="checkbox-label">Page title and screen name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="userAgeBracket" name="selected-dimensions-list" value="userAgeBracket" onchange="updateSelectedDimensions()">
+                                        <label for="Age" class="checkbox-label">Age</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="userGender" name="selected-dimensions-list" value="userGender" onchange="updateSelectedDimensions()">
+                                        <label for="Gender" class="checkbox-label">Gender</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="videoProvider" name="selected-dimensions-list" value="videoProvider" onchange="updateSelectedDimensions()">
+                                        <label for="Video provider" class="checkbox-label">Video provider</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="videoTitle" name="selected-dimensions-list" value="videoTitle" onchange="updateSelectedDimensions()">
+                                        <label for="Video title" class="checkbox-label">Video title</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="videoUrl" name="selected-dimensions-list" value="videoUrl" onchange="updateSelectedDimensions()">
+                                        <label for="Video URL" class="checkbox-label">Video URL</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="virtualCurrencyName" name="selected-dimensions-list" value="virtualCurrencyName" onchange="updateSelectedDimensions()">
+                                        <label for="Virtual currency name" class="checkbox-label">Virtual currency name</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="visible" name="selected-dimensions-list" value="visible" onchange="updateSelectedDimensions()">
+                                        <label for="Visible" class="checkbox-label">Visible</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="week" name="selected-dimensions-list" value="week" onchange="updateSelectedDimensions()">
+                                        <label for="Week" class="checkbox-label">Week</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="year" name="selected-dimensions-list" value="year" onchange="updateSelectedDimensions()">
+                                        <label for="Year" class="checkbox-label">Year</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="yearMonth" name="selected-dimensions-list" value="yearMonth" onchange="updateSelectedDimensions()">
+                                        <label for="Year month" class="checkbox-label">Year month</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="yearWeek" name="selected-dimensions-list" value="yearWeek" onchange="updateSelectedDimensions()">
+                                        <label for="Year week" class="checkbox-label">Year week</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="customUser:email" name="selected-dimensions-list" value="customUser:email" onchange="updateSelectedDimensions()">
+                                        <label for="Email" class="checkbox-label">Email</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="customEvent:location" name="selected-dimensions-list" value="customEvent:location" onchange="updateSelectedDimensions()">
+                                        <label for="Email Location" class="checkbox-label">Email Location</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="customEvent:coupon" name="selected-dimensions-list" value="customEvent:coupon" onchange="updateSelectedDimensions()">
+                                        <label for="Keycode" class="checkbox-label">Keycode</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="customUser:uid" name="selected-dimensions-list" value="customUser:uid" onchange="updateSelectedDimensions()">
+                                        <label for="UID" class="checkbox-label">UID</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="customEvent:videoloc" name="selected-dimensions-list" value="customEvent:videoloc" onchange="updateSelectedDimensions()">
+                                        <label for="Video Location" class="checkbox-label">Video Location</label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                        <input type="checkbox" id="customEvent:videoname" name="selected-dimensions-list" value="customEvent:videoname" onchange="updateSelectedDimensions()">
+                                        <label for="Video Name" class="checkbox-label">Video Name</label>
+                                        </div>
+                                                                                
+                                
+                                                                    
+                                                            
+                                                                
+                                                                
+                                </div>  
+                            </div>
+                        </td>
+                            <td colspan="1">
+                            <div class="selected-dimensions">
+                                <label>Selected Dimensions</label>
+                                <ul id="selected-dimensions"></ul>
+                            </div>
+                        </div>
+                    </td>
+                    
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <!-- Metrics -->
+                        <div class="dual-list">
+                            <div class="checkbox-container">
+                                <input type="text" class="search-box metrics" placeholder="Search-Metrics..." oninput="filterMetrics()">
+                                <div class="checkbox-list metrics">
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="active1DayUsers" name="selected-metrics-list" value="active1DayUsers" onchange="updateSelectedMetrics()">
+                                    <label for="1-day active users" class="checkbox-label">1-day active users</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="active28DayUsers" name="selected-metrics-list" value="active28DayUsers" onchange="updateSelectedMetrics()">
+                                    <label for="28-day active users" class="checkbox-label">28-day active users</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="active7DayUsers" name="selected-metrics-list" value="active7DayUsers" onchange="updateSelectedMetrics()">
+                                    <label for="7-day active users" class="checkbox-label">7-day active users</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="activeUsers" name="selected-metrics-list" value="activeUsers" onchange="updateSelectedMetrics()">
+                                    <label for="Active users" class="checkbox-label">Active users</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="adUnitExposure" name="selected-metrics-list" value="adUnitExposure" onchange="updateSelectedMetrics()">
+                                    <label for="Ad unit exposure" class="checkbox-label">Ad unit exposure</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="addToCarts" name="selected-metrics-list" value="addToCarts" onchange="updateSelectedMetrics()">
+                                    <label for="Add to carts" class="checkbox-label">Add to carts</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="advertiserAdClicks" name="selected-metrics-list" value="advertiserAdClicks" onchange="updateSelectedMetrics()">
+                                    <label for="Ads clicks" class="checkbox-label">Ads clicks</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="advertiserAdCost" name="selected-metrics-list" value="advertiserAdCost" onchange="updateSelectedMetrics()">
+                                    <label for="Ads cost" class="checkbox-label">Ads cost</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="advertiserAdCostPerClick" name="selected-metrics-list" value="advertiserAdCostPerClick" onchange="updateSelectedMetrics()">
+                                    <label for="Ads cost per click" class="checkbox-label">Ads cost per click</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="advertiserAdCostPerConversion" name="selected-metrics-list" value="advertiserAdCostPerConversion" onchange="updateSelectedMetrics()">
+                                    <label for="Cost per conversion" class="checkbox-label">Cost per conversion</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="advertiserAdImpressions" name="selected-metrics-list" value="advertiserAdImpressions" onchange="updateSelectedMetrics()">
+                                    <label for="Ads impressions" class="checkbox-label">Ads impressions</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="averagePurchaseRevenue" name="selected-metrics-list" value="averagePurchaseRevenue" onchange="updateSelectedMetrics()">
+                                    <label for="Average purchase revenue" class="checkbox-label">Average purchase revenue</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="averagePurchaseRevenuePerPayingUser" name="selected-metrics-list" value="averagePurchaseRevenuePerPayingUser" onchange="updateSelectedMetrics()">
+                                    <label for="ARPPU" class="checkbox-label">ARPPU</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="averagePurchaseRevenuePerUser" name="selected-metrics-list" value="averagePurchaseRevenuePerUser" onchange="updateSelectedMetrics()">
+                                    <label for="Average purchase revenue per user" class="checkbox-label">Average purchase revenue per user</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="averageRevenuePerUser" name="selected-metrics-list" value="averageRevenuePerUser" onchange="updateSelectedMetrics()">
+                                    <label for="ARPU" class="checkbox-label">ARPU</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="averageSessionDuration" name="selected-metrics-list" value="averageSessionDuration" onchange="updateSelectedMetrics()">
+                                    <label for="Average session duration" class="checkbox-label">Average session duration</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="bounceRate" name="selected-metrics-list" value="bounceRate" onchange="updateSelectedMetrics()">
+                                    <label for="Bounce rate" class="checkbox-label">Bounce rate</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="cartToViewRate" name="selected-metrics-list" value="cartToViewRate" onchange="updateSelectedMetrics()">
+                                    <label for="Cart-to-view rate" class="checkbox-label">Cart-to-view rate</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="checkouts" name="selected-metrics-list" value="checkouts" onchange="updateSelectedMetrics()">
+                                    <label for="Checkouts" class="checkbox-label">Checkouts</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="cohortActiveUsers" name="selected-metrics-list" value="cohortActiveUsers" onchange="updateSelectedMetrics()">
+                                    <label for="Cohort active users" class="checkbox-label">Cohort active users</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="cohortTotalUsers" name="selected-metrics-list" value="cohortTotalUsers" onchange="updateSelectedMetrics()">
+                                    <label for="Cohort total users" class="checkbox-label">Cohort total users</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="conversions" name="selected-metrics-list" value="conversions" onchange="updateSelectedMetrics()">
+                                    <label for="Conversions" class="checkbox-label">Conversions</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="crashAffectedUsers" name="selected-metrics-list" value="crashAffectedUsers" onchange="updateSelectedMetrics()">
+                                    <label for="Crash-affected users" class="checkbox-label">Crash-affected users</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="crashFreeUsersRate" name="selected-metrics-list" value="crashFreeUsersRate" onchange="updateSelectedMetrics()">
+                                    <label for="Crash-free users rate" class="checkbox-label">Crash-free users rate</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="dauPerMau" name="selected-metrics-list" value="dauPerMau" onchange="updateSelectedMetrics()">
+                                    <label for="DAU / MAU" class="checkbox-label">DAU / MAU</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="dauPerWau" name="selected-metrics-list" value="dauPerWau" onchange="updateSelectedMetrics()">
+                                    <label for="DAU / WAU" class="checkbox-label">DAU / WAU</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="ecommercePurchases" name="selected-metrics-list" value="ecommercePurchases" onchange="updateSelectedMetrics()">
+                                    <label for="Ecommerce purchases" class="checkbox-label">Ecommerce purchases</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="engagedSessions" name="selected-metrics-list" value="engagedSessions" onchange="updateSelectedMetrics()">
+                                    <label for="Engaged sessions" class="checkbox-label">Engaged sessions</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="engagementRate" name="selected-metrics-list" value="engagementRate" onchange="updateSelectedMetrics()">
+                                    <label for="Engagement rate" class="checkbox-label">Engagement rate</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="eventCount" name="selected-metrics-list" value="eventCount" onchange="updateSelectedMetrics()">
+                                    <label for="Event count" class="checkbox-label">Event count</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="eventCountPerUser" name="selected-metrics-list" value="eventCountPerUser" onchange="updateSelectedMetrics()">
+                                    <label for="Event count per user" class="checkbox-label">Event count per user</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="eventValue" name="selected-metrics-list" value="eventValue" onchange="updateSelectedMetrics()">
+                                    <label for="Event value" class="checkbox-label">Event value</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="eventsPerSession" name="selected-metrics-list" value="eventsPerSession" onchange="updateSelectedMetrics()">
+                                    <label for="Events per session" class="checkbox-label">Events per session</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="firstTimePurchaserConversionRate" name="selected-metrics-list" value="firstTimePurchaserConversionRate" onchange="updateSelectedMetrics()">
+                                    <label for="First-time purchaser conversion" class="checkbox-label">First-time purchaser conversion</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="firstTimePurchasers" name="selected-metrics-list" value="firstTimePurchasers" onchange="updateSelectedMetrics()">
+                                    <label for="First time purchasers" class="checkbox-label">First time purchasers</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="firstTimePurchasersPerNewUser" name="selected-metrics-list" value="firstTimePurchasersPerNewUser" onchange="updateSelectedMetrics()">
+                                    <label for="First-time purchasers per new user" class="checkbox-label">First-time purchasers per new user</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="grossItemRevenue" name="selected-metrics-list" value="grossItemRevenue" onchange="updateSelectedMetrics()">
+                                    <label for="Gross item revenue" class="checkbox-label">Gross item revenue</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="grossPurchaseRevenue" name="selected-metrics-list" value="grossPurchaseRevenue" onchange="updateSelectedMetrics()">
+                                    <label for="Gross purchase revenue" class="checkbox-label">Gross purchase revenue</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemDiscountAmount" name="selected-metrics-list" value="itemDiscountAmount" onchange="updateSelectedMetrics()">
+                                    <label for="Item discount amount" class="checkbox-label">Item discount amount</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemListClickEvents" name="selected-metrics-list" value="itemListClickEvents" onchange="updateSelectedMetrics()">
+                                    <label for="Item-list click events" class="checkbox-label">Item-list click events</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemListClickThroughRate" name="selected-metrics-list" value="itemListClickThroughRate" onchange="updateSelectedMetrics()">
+                                    <label for="Item list click through rate" class="checkbox-label">Item list click through rate</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemListViewEvents" name="selected-metrics-list" value="itemListViewEvents" onchange="updateSelectedMetrics()">
+                                    <label for="Item-list view events" class="checkbox-label">Item-list view events</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemPromotionClickThroughRate" name="selected-metrics-list" value="itemPromotionClickThroughRate" onchange="updateSelectedMetrics()">
+                                    <label for="Item promotion click through rate" class="checkbox-label">Item promotion click through rate</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemRefundAmount" name="selected-metrics-list" value="itemRefundAmount" onchange="updateSelectedMetrics()">
+                                    <label for="Item refund amount" class="checkbox-label">Item refund amount</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemRevenue" name="selected-metrics-list" value="itemRevenue" onchange="updateSelectedMetrics()">
+                                    <label for="Item revenue" class="checkbox-label">Item revenue</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemViewEvents" name="selected-metrics-list" value="itemViewEvents" onchange="updateSelectedMetrics()">
+                                    <label for="Item view events" class="checkbox-label">Item view events</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemsAddedToCart" name="selected-metrics-list" value="itemsAddedToCart" onchange="updateSelectedMetrics()">
+                                    <label for="Items added to cart" class="checkbox-label">Items added to cart</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemsCheckedOut" name="selected-metrics-list" value="itemsCheckedOut" onchange="updateSelectedMetrics()">
+                                    <label for="Items checked out" class="checkbox-label">Items checked out</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemsClickedInList" name="selected-metrics-list" value="itemsClickedInList" onchange="updateSelectedMetrics()">
+                                    <label for="Items clicked in list" class="checkbox-label">Items clicked in list</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemsClickedInPromotion" name="selected-metrics-list" value="itemsClickedInPromotion" onchange="updateSelectedMetrics()">
+                                    <label for="Items clicked in promotion" class="checkbox-label">Items clicked in promotion</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemsPurchased" name="selected-metrics-list" value="itemsPurchased" onchange="updateSelectedMetrics()">
+                                    <label for="Items purchased" class="checkbox-label">Items purchased</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemsViewed" name="selected-metrics-list" value="itemsViewed" onchange="updateSelectedMetrics()">
+                                    <label for="Items viewed" class="checkbox-label">Items viewed</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemsViewedInList" name="selected-metrics-list" value="itemsViewedInList" onchange="updateSelectedMetrics()">
+                                    <label for="Items viewed in list" class="checkbox-label">Items viewed in list</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="itemsViewedInPromotion" name="selected-metrics-list" value="itemsViewedInPromotion" onchange="updateSelectedMetrics()">
+                                    <label for="Items viewed in promotion" class="checkbox-label">Items viewed in promotion</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="newUsers" name="selected-metrics-list" value="newUsers" onchange="updateSelectedMetrics()">
+                                    <label for="New users" class="checkbox-label">New users</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="organicGoogleSearchAveragePosition" name="selected-metrics-list" value="organicGoogleSearchAveragePosition" onchange="updateSelectedMetrics()">
+                                    <label for="Organic google search average position" class="checkbox-label">Organic google search average position</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="organicGoogleSearchClickThroughRate" name="selected-metrics-list" value="organicGoogleSearchClickThroughRate" onchange="updateSelectedMetrics()">
+                                    <label for="Organic google search click through rate" class="checkbox-label">Organic google search click through rate</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="organicGoogleSearchClicks" name="selected-metrics-list" value="organicGoogleSearchClicks" onchange="updateSelectedMetrics()">
+                                    <label for="Organic google search clicks" class="checkbox-label">Organic google search clicks</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="organicGoogleSearchImpressions" name="selected-metrics-list" value="organicGoogleSearchImpressions" onchange="updateSelectedMetrics()">
+                                    <label for="Organic google search impressions" class="checkbox-label">Organic google search impressions</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="promotionClicks" name="selected-metrics-list" value="promotionClicks" onchange="updateSelectedMetrics()">
+                                    <label for="Promotion clicks" class="checkbox-label">Promotion clicks</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="promotionViews" name="selected-metrics-list" value="promotionViews" onchange="updateSelectedMetrics()">
+                                    <label for="Promotion views" class="checkbox-label">Promotion views</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="publisherAdClicks" name="selected-metrics-list" value="publisherAdClicks" onchange="updateSelectedMetrics()">
+                                    <label for="Publisher ad clicks" class="checkbox-label">Publisher ad clicks</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="publisherAdImpressions" name="selected-metrics-list" value="publisherAdImpressions" onchange="updateSelectedMetrics()">
+                                    <label for="Publisher ad impressions" class="checkbox-label">Publisher ad impressions</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="purchaseRevenue" name="selected-metrics-list" value="purchaseRevenue" onchange="updateSelectedMetrics()">
+                                    <label for="Purchase revenue" class="checkbox-label">Purchase revenue</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="purchaseToViewRate" name="selected-metrics-list" value="purchaseToViewRate" onchange="updateSelectedMetrics()">
+                                    <label for="Purchase-to-view rate" class="checkbox-label">Purchase-to-view rate</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="purchaserConversionRate" name="selected-metrics-list" value="purchaserConversionRate" onchange="updateSelectedMetrics()">
+                                    <label for="Purchaser conversion" class="checkbox-label">Purchaser conversion</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="refundAmount" name="selected-metrics-list" value="refundAmount" onchange="updateSelectedMetrics()">
+                                    <label for="Refund amount" class="checkbox-label">Refund amount</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="returnOnAdSpend" name="selected-metrics-list" value="returnOnAdSpend" onchange="updateSelectedMetrics()">
+                                    <label for="Return on ad spend" class="checkbox-label">Return on ad spend</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="screenPageViews" name="selected-metrics-list" value="screenPageViews" onchange="updateSelectedMetrics()">
+                                    <label for="Views" class="checkbox-label">Views</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="screenPageViewsPerSession" name="selected-metrics-list" value="screenPageViewsPerSession" onchange="updateSelectedMetrics()">
+                                    <label for="Views per session" class="checkbox-label">Views per session</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="screenPageViewsPerUser" name="selected-metrics-list" value="screenPageViewsPerUser" onchange="updateSelectedMetrics()">
+                                    <label for="Views per user" class="checkbox-label">Views per user</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="scrolledUsers" name="selected-metrics-list" value="scrolledUsers" onchange="updateSelectedMetrics()">
+                                    <label for="Scrolled users" class="checkbox-label">Scrolled users</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="sessionConversionRate" name="selected-metrics-list" value="sessionConversionRate" onchange="updateSelectedMetrics()">
+                                    <label for="Session conversion rate" class="checkbox-label">Session conversion rate</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="sessions" name="selected-metrics-list" value="sessions" onchange="updateSelectedMetrics()">
+                                    <label for="Sessions" class="checkbox-label">Sessions</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="sessionsPerUser" name="selected-metrics-list" value="sessionsPerUser" onchange="updateSelectedMetrics()">
+                                    <label for="Sessions per user" class="checkbox-label">Sessions per user</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="shippingAmount" name="selected-metrics-list" value="shippingAmount" onchange="updateSelectedMetrics()">
+                                    <label for="Shipping amount" class="checkbox-label">Shipping amount</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="taxAmount" name="selected-metrics-list" value="taxAmount" onchange="updateSelectedMetrics()">
+                                    <label for="Tax amount" class="checkbox-label">Tax amount</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="totalAdRevenue" name="selected-metrics-list" value="totalAdRevenue" onchange="updateSelectedMetrics()">
+                                    <label for="Total ad revenue" class="checkbox-label">Total ad revenue</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="totalPurchasers" name="selected-metrics-list" value="totalPurchasers" onchange="updateSelectedMetrics()">
+                                    <label for="Total purchasers" class="checkbox-label">Total purchasers</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="totalRevenue" name="selected-metrics-list" value="totalRevenue" onchange="updateSelectedMetrics()">
+                                    <label for="Total revenue" class="checkbox-label">Total revenue</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="totalUsers" name="selected-metrics-list" value="totalUsers" onchange="updateSelectedMetrics()">
+                                    <label for="Total users" class="checkbox-label">Total users</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="transactions" name="selected-metrics-list" value="transactions" onchange="updateSelectedMetrics()">
+                                    <label for="Transactions" class="checkbox-label">Transactions</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="transactionsPerPurchaser" name="selected-metrics-list" value="transactionsPerPurchaser" onchange="updateSelectedMetrics()">
+                                    <label for="Transactions per purchaser" class="checkbox-label">Transactions per purchaser</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="userConversionRate" name="selected-metrics-list" value="userConversionRate" onchange="updateSelectedMetrics()">
+                                    <label for="User conversion rate" class="checkbox-label">User conversion rate</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="userEngagementDuration" name="selected-metrics-list" value="userEngagementDuration" onchange="updateSelectedMetrics()">
+                                    <label for="User engagement" class="checkbox-label">User engagement</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="wauPerMau" name="selected-metrics-list" value="wauPerMau" onchange="updateSelectedMetrics()">
+                                    <label for="WAU / MAU" class="checkbox-label">WAU / MAU</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="customEvent:grand_total" name="selected-metrics-list" value="customEvent:grand_total" onchange="updateSelectedMetrics()">
+                                    <label for="Grand Total" class="checkbox-label">Grand Total</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="customEvent:tax" name="selected-metrics-list" value="customEvent:tax" onchange="updateSelectedMetrics()">
+                                    <label for="Tax" class="checkbox-label">Tax</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                    <input type="checkbox" id="customEvent:shipping" name="selected-metrics-list" value="customEvent:shipping" onchange="updateSelectedMetrics()">
+                                    <label for="Shipping Amount" class="checkbox-label">Shipping Amount</label>
+                                    </div>
+                                            
+                                    </div>
+
+                            </div>
+                        </td>
+                        <td colspan="1">
+                            <div class="selected-metrics">
+                                <label>Selected Metrics</label>
+                                <ul id="selected-metrics"></ul>
+                            </div>
+                           
+                        </div>
+                    </td>
+                </tr>
+                <tr >
+                        <td colspan="1">
+                            <label for="Filter">Select to Apply Filter:</label> </td>
+                            <td colspan="2">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="D_Filter" name="D_Filter" value="Dimensions" onchange="showDComboBoxes()">
+                                <label for="Dimensions" class="checkbox-label">Dimensions</label>
+                                </div> 
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="M_Filter" name="M_Filter" value="Metrics" onchange="showMComboBoxes()">
+                                    <label for="Metrics" class="checkbox-label">Metrics</label>
+                                    </div></td>
+                        
+                        </td>
+                    </tr>
+                <tr class="D_FieldSet">
+                    <td>
+                        
+                        <select class = 'form-control' name = 'dimensionscombo' id="dimensionscombo" style="display:none;" >
+                            <option value="" disabled selected>Dimensions</option>
+                            <option value="achievementId">Achievement ID</option>
+                            <option value="adFormat">Ad format</option>
+                            <option value="adSourceName">Ad source</option>
+                            <option value="adUnitName">Ad unit</option>
+                            <option value="appVersion">App version</option>
+                            <option value="audienceName">Audience name</option>
+                            <option value="audienceResourceName">Audience resource name</option>
+                            <option value="brandingInterest">Interests</option>
+                            <option value="browser">Browser</option>
+                            <option value="campaignId">Campaign ID</option>
+                            <option value="campaignName">Campaign</option>
+                            <option value="character">Character</option>
+                            <option value="city">City</option>
+                            <option value="cityId">City ID</option>
+                            <option value="cohort">Cohort</option>
+                            <option value="cohortNthDay">Daily cohort</option>
+                            <option value="cohortNthMonth">Monthly cohort</option>
+                            <option value="cohortNthWeek">Weekly cohort</option>
+                            <option value="contentGroup">Content group</option>
+                            <option value="contentId">Content ID</option>
+                            <option value="contentType">Content type</option>
+                            <option value="continent">Continent</option>
+                            <option value="continentId">Continent ID</option>
+                            <option value="country">Country</option>
+                            <option value="countryId">Country ID</option>
+                            <option value="currencyCode">Currency</option>
+                            <option value="date">Date</option>
+                            <option value="dateHour">Date + hour (YYYYMMDDHH)</option>
+                            <option value="dateHourMinute">Date hour and minute</option>
+                            <option value="day">Day</option>
+                            <option value="dayOfWeek">Day of week</option>
+                            <option value="dayOfWeekName">Day of week name</option>
+                            <option value="defaultChannelGroup">Default channel group</option>
+                            <option value="deviceCategory">Device category</option>
+                            <option value="deviceModel">Device model</option>
+                            <option value="eventName">Event name</option>
+                            <option value="fileExtension">File extension</option>
+                            <option value="fileName">File name</option>
+                            <option value="firstSessionDate">First session date</option>
+                            <option value="firstUserCampaignId">First user campaign ID</option>
+                            <option value="firstUserCampaignName">First user campaign</option>
+                            <option value="firstUserDefaultChannelGroup">First user default channel group</option>
+                            <option value="firstUserGoogleAdsAccountName">First user Google Ads account name</option>
+                            <option value="firstUserGoogleAdsAdGroupId">First user Google Ads ad group ID</option>
+                            <option value="firstUserGoogleAdsAdGroupName">First user Google Ads ad group name</option>
+                            <option value="firstUserGoogleAdsAdNetworkType">First user Google Ads ad network type</option>
+                            <option value="firstUserGoogleAdsCampaignId">First user Google Ads campaign ID</option>
+                            <option value="firstUserGoogleAdsCampaignName">First user Google Ads campaign</option>
+                            <option value="firstUserGoogleAdsCampaignType">First user Google Ads campaign type</option>
+                            <option value="firstUserGoogleAdsCreativeId">First user Google Ads creative ID</option>
+                            <option value="firstUserGoogleAdsCustomerId">First user Google Ads customer ID</option>
+                            <option value="firstUserGoogleAdsKeyword">First user Google Ads keyword text</option>
+                            <option value="firstUserGoogleAdsQuery">First user Google Ads query</option>
+                            <option value="firstUserManualAdContent">First user manual ad content</option>
+                            <option value="firstUserManualTerm">First user manual term</option>
+                            <option value="firstUserMedium">First user medium</option>
+                            <option value="firstUserSource">First user source</option>
+                            <option value="firstUserSourceMedium">First user source / medium</option>
+                            <option value="firstUserSourcePlatform">First user source platform</option>
+                            <option value="fullPageUrl">Full page URL</option>
+                            <option value="googleAdsAccountName">Google Ads account name</option>
+                            <option value="googleAdsAdGroupId">Google Ads ad group ID</option>
+                            <option value="googleAdsAdGroupName">Google Ads ad group name</option>
+                            <option value="googleAdsAdNetworkType">Google Ads ad network type</option>
+                            <option value="googleAdsCampaignId">Google Ads campaign ID</option>
+                            <option value="googleAdsCampaignName">Google Ads campaign</option>
+                            <option value="googleAdsCampaignType">Google Ads campaign type</option>
+                            <option value="googleAdsCreativeId">Google Ads creative ID</option>
+                            <option value="googleAdsCustomerId">Google Ads customer ID</option>
+                            <option value="googleAdsKeyword">Google Ads keyword text</option>
+                            <option value="googleAdsQuery">Google Ads query</option>
+                            <option value="groupId">Group ID</option>
+                            <option value="hostName">Hostname</option>
+                            <option value="hour">Hour</option>
+                            <option value="isConversionEvent">Is conversion event</option>
+                            <option value="isoWeek">ISO week of the year</option>
+                            <option value="isoYear">ISO year</option>
+                            <option value="isoYearIsoWeek">ISO week of ISO year</option>
+                            <option value="itemAffiliation">Item affiliation</option>
+                            <option value="itemBrand">Item brand</option>
+                            <option value="itemCategory">Item category</option>
+                            <option value="itemCategory2">Item category 2</option>
+                            <option value="itemCategory3">Item category 3</option>
+                            <option value="itemCategory4">Item category 4</option>
+                            <option value="itemCategory5">Item category 5</option>
+                            <option value="itemId">Item ID</option>
+                            <option value="itemListId">Item list ID</option>
+                            <option value="itemListName">Item list name</option>
+                            <option value="itemListPosition">Item list position</option>
+                            <option value="itemLocationID">Item location ID</option>
+                            <option value="itemName">Item name</option>
+                            <option value="itemPromotionCreativeName">Item promotion creative name</option>
+                            <option value="itemPromotionCreativeSlot">Item promotion creative slot</option>
+                            <option value="itemPromotionId">Item promotion ID</option>
+                            <option value="itemPromotionName">Item promotion name</option>
+                            <option value="itemVariant">Item variant</option>
+                            <option value="landingPage">Landing page</option>
+                            <option value="landingPagePlusQueryString">Landing page + query string</option>
+                            <option value="language">Language</option>
+                            <option value="languageCode">Language code</option>
+                            <option value="level">Level</option>
+                            <option value="linkClasses">Link classes</option>
+                            <option value="linkDomain">Link domain</option>
+                            <option value="linkId">Link ID</option>
+                            <option value="linkText">Link text</option>
+                            <option value="linkUrl">Link URL</option>
+                            <option value="manualAdContent">Manual ad content</option>
+                            <option value="manualTerm">Manual term</option>
+                            <option value="medium">Medium</option>
+                            <option value="method">Method</option>
+                            <option value="minute">Minute</option>
+                            <option value="mobileDeviceBranding">Device brand</option>
+                            <option value="mobileDeviceMarketingName">Device</option>
+                            <option value="mobileDeviceModel">Mobile model</option>
+                            <option value="month">Month</option>
+                            <option value="newVsReturning">New / returning</option>
+                            <option value="nthDay">Nth day</option>
+                            <option value="nthHour">Nth hour</option>
+                            <option value="nthMinute">Nth minute</option>
+                            <option value="nthMonth">Nth month</option>
+                            <option value="nthWeek">Nth week</option>
+                            <option value="nthYear">Nth year</option>
+                            <option value="operatingSystem">Operating system</option>
+                            <option value="operatingSystemVersion">OS version</option>
+                            <option value="operatingSystemWithVersion">Operating system with version</option>
+                            <option value="orderCoupon">Order coupon</option>
+                            <option value="outbound">Outbound</option>
+                            <option value="pageLocation">Page location</option>
+                            <option value="pagePath">Page path</option>
+                            <option value="pagePathPlusQueryString">Page path + query string</option>
+                            <option value="pageReferrer">Page referrer</option>
+                            <option value="pageTitle">Page title</option>
+                            <option value="percentScrolled">Percent scrolled</option>
+                            <option value="platform">Platform</option>
+                            <option value="platformDeviceCategory">Platform / device category</option>
+                            <option value="region">Region</option>
+                            <option value="screenResolution">Screen resolution</option>
+                            <option value="searchTerm">Search term</option>
+                            <option value="sessionCampaignId">Session campaign ID</option>
+                            <option value="sessionCampaignName">Session campaign</option>
+                            <option value="sessionDefaultChannelGroup">Session default channel group</option>
+                            <option value="sessionGoogleAdsAccountName">Session Google Ads account name</option>
+                            <option value="sessionGoogleAdsAdGroupId">Session Google Ads ad group ID</option>
+                            <option value="sessionGoogleAdsAdGroupName">Session Google Ads ad group name</option>
+                            <option value="sessionGoogleAdsAdNetworkType">Session Google Ads ad network type</option>
+                            <option value="sessionGoogleAdsCampaignId">Session Google Ads campaign ID</option>
+                            <option value="sessionGoogleAdsCampaignName">Session Google Ads campaign</option>
+                            <option value="sessionGoogleAdsCampaignType">Session Google Ads campaign type</option>
+                            <option value="sessionGoogleAdsCreativeId">Session Google Ads creative ID</option>
+                            <option value="sessionGoogleAdsCustomerId">Session Google Ads customer ID</option>
+                            <option value="sessionGoogleAdsKeyword">Session Google Ads keyword text</option>
+                            <option value="sessionGoogleAdsQuery">Session Google Ads query</option>
+                            <option value="sessionManualAdContent">Session manual ad content</option>
+                            <option value="sessionManualTerm">Session manual term</option>
+                            <option value="sessionMedium">Session medium</option>
+                            <option value="sessionSa360AdGroupName">Session SA360 ad group name</option>
+                            <option value="sessionSa360CampaignId">Session SA360 campaign ID</option>
+                            <option value="sessionSa360CampaignName">Session SA360 campaign</option>
+                            <option value="sessionSa360CreativeFormat">Session SA360 creative format</option>
+                            <option value="sessionSa360EngineAccountId">Session SA360 engine account ID</option>
+                            <option value="sessionSa360EngineAccountName">Session SA360 engine account name</option>
+                            <option value="sessionSa360EngineAccountType">Session SA360 engine account type</option>
+                            <option value="sessionSa360Keyword">Session SA360 keyword text</option>
+                            <option value="sessionSa360Medium">Session SA360 medium</option>
+                            <option value="sessionSa360Query">Session SA360 query</option>
+                            <option value="sessionSa360Source">Session SA360 source</option>
+                            <option value="sessionSource">Session source</option>
+                            <option value="sessionSourceMedium">Session source / medium</option>
+                            <option value="sessionSourcePlatform">Session source platform</option>
+                            <option value="shippingTier">Shipping tier</option>
+                            <option value="signedInWithUserId">Signed in with user ID</option>
+                            <option value="source">Source</option>
+                            <option value="sourceMedium">Source / medium</option>
+                            <option value="sourcePlatform">Source platform</option>
+                            <option value="streamId">Stream ID</option>
+                            <option value="streamName">Stream name</option>
+                            <option value="testDataFilterId">Test data filter ID</option>
+                            <option value="testDataFilterName">Test data filter name</option>
+                            <option value="transactionId">Transaction ID</option>
+                            <option value="unifiedPagePathScreen">Page path and screen class</option>
+                            <option value="unifiedPageScreen">Page path + query string and screen class</option>
+                            <option value="unifiedScreenClass">Page title and screen class</option>
+                            <option value="unifiedScreenName">Page title and screen name</option>
+                            <option value="userAgeBracket">Age</option>
+                            <option value="userGender">Gender</option>
+                            <option value="videoProvider">Video provider</option>
+                            <option value="videoTitle">Video title</option>
+                            <option value="videoUrl">Video URL</option>
+                            <option value="virtualCurrencyName">Virtual currency name</option>
+                            <option value="visible">Visible</option>
+                            <option value="week">Week</option>
+                            <option value="year">Year</option>
+                            <option value="yearMonth">Year month</option>
+                            <option value="yearWeek">Year week</option>
+                            <option value="customUser:email">Email</option>
+                            <option value="customEvent:location">Email Location</option>
+                            <option value="customEvent:coupon">Keycode</option>
+                            <option value="customUser:uid">UID</option>
+                            <option value="customEvent:videoloc">Video Location</option>
+                            <option value="customEvent:videoname">Video Name</option>
+
+                        </select>
+                       
+                    </td>
+                    <td>
+                        <select class="form-control" name="D_Filter_type" id="D_Filter_type" style="display:none;" onclick="showDFTComboBoxes()">
+                            <option value="" disabled selected>Filter_type</option>
+                            <option value="STRING_FILTER">STRING_FILTER</option>
+                            <!-- <option value="IN_LIST_FILTER">IN_LIST_FILTER</option> -->
+                            <option value="NUMERIC_FILTER">NUMERIC_FILTER</option>
+                            <option value="BETWEEN_FILTER">BETWEEN_FILTER</option>
+                        </select>
+                        
+                        <select class="form-control" name="DSTR_MatchType" id="DSTR_MatchType" style="display:none;">
+                            <option value="" disabled selected>STRING_FILTER</option>
+                            <option value="EXACT">EXACT</option>
+                            <option value="BEGINS_WITH">BEGINS_WITH</option>
+                            <option value="ENDS_WITH">ENDS_WITH</option>
+                            <option value="CONTAINS">CONTAINS</option>
+                            <option value="FULL_REGEXP">FULL_REGEXP</option>
+                            <option value="PARTIAL_REGEXP">PARTIAL_REGEXP</option>
+                            
+                            </select>
+                            
+                        <select class="form-control" name="DNUM_MatchType" id="DNUM_MatchType" style="display:none;">
+                            <option value="" disabled selected>NUMERIC_FILTER</option>
+                            <option value="EQUAL">EQUAL</option>
+                            <option value="LESS_THAN">LESS_THAN</option>
+                            <option value="LESS_THAN_OR_EQUAL">LESS_THAN_OR_EQUAL</option>
+                            <option value="GREATER_THAN">GREATER_THAN</option>
+                            <option value="GREATER_THAN_OR_EQUAL">GREATER_THAN_OR_EQUAL</option>
+                            </select>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="D_value" id="D_value" placeholder="Value" style="display:none;">
+                        <input type="text" class="form-control" name="D_value1" id="D_value1" placeholder="Value1" style="display:none;">
+                        <input type="text" class="form-control" name="D_value2" id="D_value2" placeholder="Value2" style="display:none;">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       <select class = 'form-control' name ="metricscombo" id="metricscombo" style="display:none;">
+                            <option value="" disabled selected>Metrics</option>
+                            <option value="active1DayUsers">1-day active users</option>
+                            <option value="active28DayUsers">28-day active users</option>
+                            <option value="active7DayUsers">7-day active users</option>
+                            <option value="activeUsers">Active users</option>
+                            <option value="adUnitExposure">Ad unit exposure</option>
+                            <option value="addToCarts">Add to carts</option>
+                            <option value="advertiserAdClicks">Ads clicks</option>
+                            <option value="advertiserAdCost">Ads cost</option>
+                            <option value="advertiserAdCostPerClick">Ads cost per click</option>
+                            <option value="advertiserAdCostPerConversion">Cost per conversion</option>
+                            <option value="advertiserAdImpressions">Ads impressions</option>
+                            <option value="averagePurchaseRevenue">Average purchase revenue</option>
+                            <option value="averagePurchaseRevenuePerPayingUser">ARPPU</option>
+                            <option value="averagePurchaseRevenuePerUser">Average purchase revenue per user</option>
+                            <option value="averageRevenuePerUser">ARPU</option>
+                            <option value="averageSessionDuration">Average session duration</option>
+                            <option value="bounceRate">Bounce rate</option>
+                            <option value="cartToViewRate">Cart-to-view rate</option>
+                            <option value="checkouts">Checkouts</option>
+                            <option value="cohortActiveUsers">Cohort active users</option>
+                            <option value="cohortTotalUsers">Cohort total users</option>
+                            <option value="conversions">Conversions</option>
+                            <option value="crashAffectedUsers">Crash-affected users</option>
+                            <option value="crashFreeUsersRate">Crash-free users rate</option>
+                            <option value="dauPerMau">DAU / MAU</option>
+                            <option value="dauPerWau">DAU / WAU</option>
+                            <option value="ecommercePurchases">Ecommerce purchases</option>
+                            <option value="engagedSessions">Engaged sessions</option>
+                            <option value="engagementRate">Engagement rate</option>
+                            <option value="eventCount">Event count</option>
+                            <option value="eventCountPerUser">Event count per user</option>
+                            <option value="eventValue">Event value</option>
+                            <option value="eventsPerSession">Events per session</option>
+                            <option value="firstTimePurchaserConversionRate">First-time purchaser conversion</option>
+                            <option value="firstTimePurchasers">First time purchasers</option>
+                            <option value="firstTimePurchasersPerNewUser">First-time purchasers per new user</option>
+                            <option value="grossItemRevenue">Gross item revenue</option>
+                            <option value="grossPurchaseRevenue">Gross purchase revenue</option>
+                            <option value="itemDiscountAmount">Item discount amount</option>
+                            <option value="itemListClickEvents">Item-list click events</option>
+                            <option value="itemListClickThroughRate">Item list click through rate</option>
+                            <option value="itemListViewEvents">Item-list view events</option>
+                            <option value="itemPromotionClickThroughRate">Item promotion click through rate</option>
+                            <option value="itemRefundAmount">Item refund amount</option>
+                            <option value="itemRevenue">Item revenue</option>
+                            <option value="itemViewEvents">Item view events</option>
+                            <option value="itemsAddedToCart">Items added to cart</option>
+                            <option value="itemsCheckedOut">Items checked out</option>
+                            <option value="itemsClickedInList">Items clicked in list</option>
+                            <option value="itemsClickedInPromotion">Items clicked in promotion</option>
+                            <option value="itemsPurchased">Items purchased</option>
+                            <option value="itemsViewed">Items viewed</option>
+                            <option value="itemsViewedInList">Items viewed in list</option>
+                            <option value="itemsViewedInPromotion">Items viewed in promotion</option>
+                            <option value="newUsers">New users</option>
+                            <option value="organicGoogleSearchAveragePosition">Organic google search average position</option>
+                            <option value="organicGoogleSearchClickThroughRate">Organic google search click through rate</option>
+                            <option value="organicGoogleSearchClicks">Organic google search clicks</option>
+                            <option value="organicGoogleSearchImpressions">Organic google search impressions</option>
+                            <option value="promotionClicks">Promotion clicks</option>
+                            <option value="promotionViews">Promotion views</option>
+                            <option value="publisherAdClicks">Publisher ad clicks</option>
+                            <option value="publisherAdImpressions">Publisher ad impressions</option>
+                            <option value="purchaseRevenue">Purchase revenue</option>
+                            <option value="purchaseToViewRate">Purchase-to-view rate</option>
+                            <option value="purchaserConversionRate">Purchaser conversion</option>
+                            <option value="refundAmount">Refund amount</option>
+                            <option value="returnOnAdSpend">Return on ad spend</option>
+                            <option value="screenPageViews">Views</option>
+                            <option value="screenPageViewsPerSession">Views per session</option>
+                            <option value="screenPageViewsPerUser">Views per user</option>
+                            <option value="scrolledUsers">Scrolled users</option>
+                            <option value="sessionConversionRate">Session conversion rate</option>
+                            <option value="sessions">Sessions</option>
+                            <option value="sessionsPerUser">Sessions per user</option>
+                            <option value="shippingAmount">Shipping amount</option>
+                            <option value="taxAmount">Tax amount</option>
+                            <option value="totalAdRevenue">Total ad revenue</option>
+                            <option value="totalPurchasers">Total purchasers</option>
+                            <option value="totalRevenue">Total revenue</option>
+                            <option value="totalUsers">Total users</option>
+                            <option value="transactions">Transactions</option>
+                            <option value="transactionsPerPurchaser">Transactions per purchaser</option>
+                            <option value="userConversionRate">User conversion rate</option>
+                            <option value="userEngagementDuration">User engagement</option>
+                            <option value="wauPerMau">WAU / MAU</option>
+                            <option value="customEvent:grand_total">Grand Total</option>
+                            <option value="customEvent:tax">Tax</option>
+                            <option value="customEvent:shipping">Shipping Amount</option>
+
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-control" name="M_Filter_type" id="M_Filter_type" style="display:none;" onclick="showMFTComboBoxes()">
+                            <option value="" disabled selected>Filter_type</option>
+                            <option value="STRING_FILTER">STRING_FILTER</option>
+                            <!-- <option value="IN_LIST_FILTER">IN_LIST_FILTER</option> -->
+                            <option value="NUMERIC_FILTER">NUMERIC_FILTER</option>
+                            <option value="BETWEEN_FILTER">BETWEEN_FILTER</option>
+                        </select>
+                        
+                        <select class="form-control" name="MSTR_MatchType" id="MSTR_MatchType" style="display:none;">
+                            <option value="" disabled selected>STRING_FILTER</option>
+                            <option value="EXACT">EXACT</option>
+                            <option value="BEGINS_WITH">BEGINS_WITH</option>
+                            <option value="ENDS_WITH">ENDS_WITH</option>
+                            <option value="CONTAINS">CONTAINS</option>
+                            <option value="FULL_REGEXP">FULL_REGEXP</option>
+                            <option value="PARTIAL_REGEXP">PARTIAL_REGEXP</option>
+                            
+                            </select>
+                            
+                        <select class="form-control" name="MNUM_MatchType" id="MNUM_MatchType" style="display:none;">
+                            <option value="" disabled selected>NUMERIC_FILTER</option>
+                            <option value="EQUAL">EQUAL</option>
+                            <option value="LESS_THAN">LESS_THAN</option>
+                            <option value="LESS_THAN_OR_EQUAL">LESS_THAN_OR_EQUAL</option>
+                            <option value="GREATER_THAN">GREATER_THAN</option>
+                            <option value="GREATER_THAN_OR_EQUAL">GREATER_THAN_OR_EQUAL</option>
+                            </select>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="M_value" id="M_value" placeholder="Value" style="display:none;">
+                        <input type="text" class="form-control" name="M_value1" id="M_value1" placeholder="Value1" style="display:none;">
+                        <input type="text" class="form-control" name="M_value2" id="M_value2" placeholder="Value2" style="display:none;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center">  
+                    <button class="btn btn-primary" type="submit"><b>Download GA4 Data</b></button>
+                </td>
+                    </tr>
+                </form>
+            </table>
+
+
+
+        
+
+        <div id="spinnerContainer" class="spinner-container">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="errorContainer" class="error-message"></div>
+    </div>
+</body>
+</html>
