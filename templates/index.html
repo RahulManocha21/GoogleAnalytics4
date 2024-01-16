@@ -874,6 +874,24 @@
                                 <input type="text" class="search-box metrics" placeholder="Search-Metrics..." oninput="filterMetrics()">
                                 <div class="checkbox-list metrics">
                                     <div class="checkbox-item">
+                                        <input type="checkbox" id="itemsViewed" name="selected-metrics-list" value="itemsViewed" onchange="updateSelectedMetrics()">
+                                        <label for="Items Viewed" class="checkbox-label">Items Viewed</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="itemsAddedToCart" name="selected-metrics-list" value="itemsAddedToCart" onchange="updateSelectedMetrics()">
+                                        <label for="Items added to cart" class="checkbox-label">Items added to cart</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="itemsCheckedOut" name="selected-metrics-list" value="itemsCheckedOut" onchange="updateSelectedMetrics()">
+                                        <label for="Items checked out" class="checkbox-label">Items checked out</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="itemsPurchased" name="selected-metrics-list" value="itemsPurchased" onchange="updateSelectedMetrics()">
+                                        <label for="Items purchased" class="checkbox-label">Items purchased</label>
+                                    </div>
+                                    
+
+                                    <div class="checkbox-item">
                                     <input type="checkbox" id="active1DayUsers" name="selected-metrics-list" value="active1DayUsers" onchange="updateSelectedMetrics()">
                                     <label for="1-day active users" class="checkbox-label">1-day active users</label>
                                     </div>
@@ -1506,6 +1524,12 @@
                     <td>
                        <select class = 'form-control' name ="metricscombo" id="metricscombo" style="display:none;">
                             <option value="" disabled selected>Metrics</option>
+                            
+                            <option value="itemsViewed">Items Viewed</option>
+                            <option value="itemsAddedToCart">Items added to cart</option>
+                            <option value="itemsCheckedOut">Items checked out</option>
+                            <option value="itemsPurchased">Items purchased</option>
+                            
                             <option value="active1DayUsers">1-day active users</option>
                             <option value="active28DayUsers">28-day active users</option>
                             <option value="active7DayUsers">7-day active users</option>
